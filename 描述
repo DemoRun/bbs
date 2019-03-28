@@ -1,0 +1,12 @@
+表结构：
+UserInfo和Blog表为 1对1
+Blog和Tag表为  1对多
+Blog和Category表为  1对多
+Blog和Article表为  1对多
+Tag和Article表为  多对多
+Category和Article表为  1对多
+Article和ArticleUpDown表  1对多
+Article和Comment表  1对多
+Article和Article_Detail表为  1对1
+UserInfo和ArticleUpDown表  1对多
+UserInfo和Comment表  1对多

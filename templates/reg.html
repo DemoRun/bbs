@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <!-- 初始化样式重置 -->
+    <link href="https://cdn.bootcss.com/normalize/8.0.1/normalize.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        #exampleInputFile {
+            display: none;
+        }
+
+        #header_image {
+            height: 40px;
+            width: 40px;
+            margin-left: 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for foo in form %}
+                    <div class="form-group">
+                        <label>{{ foo.label }}</label>
+                        {{ foo }}<span class="error pull-right"></span>
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <label for="exampleInputFile">头像
+                        <img src="/static/image/1552037426(1).jpg" id="header_image">
+                    </label>
+                    <input type="file" id="exampleInputFile">
+                </div>
+                <input type="button" class="btn btn-default pull-right" value="注册">
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $("#exampleInputFile").change(function () {
+        var choose_file = $(this)[0].files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(choose_file);
+        reader.onload = function () {
+            $("#header_image").attr("src", reader.result)
+        }
+    })
+
+    $(".btn-default").click(function () {
+        var formData = new FormData
+        formData.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val());
+        formData.append("username", $("#id_username").val());
+        formData.append("password", $("#id_password").val());
+        formData.append("repeat_pwd", $("#id_repeat_pwd").val());
+        formData.append("telephone", $("#id_telephone").val());
+        formData.append("email", $("#id_email").val());
+        formData.append("header_image", $("#exampleInputFile")[0].files[0]);
+        $.ajax({
+                url: "",
+                type: "post",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (data) {
+                    if (data.user) {
+                        location.href = "/login/"
+                    } else {
+                        {// 注册失败
+                            console.log(data.error_dict);
+                            // q清空错误信息
+                            $("form span").html("");
+                            $("form .form-group").removeClass("has-error")
+                            // 加载错误信息
+                            $.each(data.error_dict, function (field, error_list) {
+
+                                if (field == "__all__") {
+                                    $("#id_repeat_pwd").next().html(error_list[0]).css("color", 'red');
+                                    $("#id_repeat_pwd").parent().addClass("has-error")
+
+
+                                }
+
+                                $("#id_" + field).next().html(error_list[0]).css("color", 'red');
+                                $("#id_" + field).parent().addClass("has-error")
+                            })
+
+
+                        }
+                    }
+                }
+            }
+        )
+    })
+</script>
+</body>
+</html>

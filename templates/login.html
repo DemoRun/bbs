@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <!-- 初始化样式重置 -->
+    <link href="https://cdn.bootcss.com/normalize/8.0.1/normalize.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container {
+            margin-top: 150px;
+        }
+
+        .sub {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="user">用户名</label>
+                    <input type="text" class="form-control" id="user_id">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">密码</label>
+                    <input type="password" class="form-control" id="pwd_id">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputPassword1">验证码</label>
+                        <input type="text" class="form-control" id="valid_img">
+                    </div>
+                    <div class="col-md-6" class="form-control">
+                        <img height="59" width="160" src="/get_valid_img" id="change_img">
+                    </div>
+                </div>
+                <div class="sub">
+                    <button type="button" class="btn btn-default" id="login_btn">提交</button>
+                    <span class="error" style="color: red;margin-left: 20px"></span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/my_js/login.js">
+
+</script>
+</body>
+</html>
